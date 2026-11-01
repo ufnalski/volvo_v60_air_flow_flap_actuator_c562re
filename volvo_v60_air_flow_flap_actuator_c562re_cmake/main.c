@@ -31,12 +31,12 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 
-#define DRIVE_ID 0x1A // 0x12, 0x14, 0x18, 0x1A
+#define DRIVE_ID 0x1A // 0x12 /* 0 */, 0x14 /* 2 */, 0x18 /* 4 */, 0x1A /* 8 */
 #define LIN_USART USART3
 #define LIN_TX_BUFFER_SIZE 5
 #define LIN_RX_BUFFER_SIZE 16
 #define VCP_RX_BUFFER_SIZE 16
-#define LIN_SEND_PERIOD 100
+#define LIN_SEND_PERIOD 80
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
@@ -58,6 +58,8 @@ uint8_t button_toggle = 0;
 uint8_t send_toggle = 0;
 
 char lcd_line[32];
+
+uint8_t drive_id = DRIVE_ID;
 
 /* Private functions prototype -----------------------------------------------*/
 
@@ -153,16 +155,18 @@ void HAL_UART_LINBreakCallback(hal_uart_handle_t *huart) {
   if (huart->instance == HAL_UART3) {
     LIN_USART->ICR |= USART_ICR_LBDCF; // clear flag
 
+    // https://www.csselectronics.com/pages/lin-bus-protocol-intro-basics
+    // drive_id %= 0x3B;
     if (send_toggle == 0) {
       send_toggle = 1;
       adjustable_byte = HAL_TIM_GetCounter(htim2_encoder);
       LinTxData[0] = 0x55; // sync field
-      LinTxData[1] = Pid_Calc(DRIVE_ID);
+      LinTxData[1] = Pid_Calc(drive_id);
 
       if (button_toggle == 0) {
         LinTxData[2] = adjustable_byte | 0xF0;
-        LinTxData[3] = 0x00; // I haven't experimented with that byte
-      } else {               // some unknown unlock payload :)
+        LinTxData[3] = 0x00; // I haven't experimented with that byte.
+      } else {               // Some unknown unlock payload :)
         LinTxData[2] = rand();
         LinTxData[3] = rand();
       }
@@ -175,12 +179,13 @@ void HAL_UART_LINBreakCallback(hal_uart_handle_t *huart) {
       memset(LinRxData, 0x00, LIN_RX_BUFFER_SIZE);
       HAL_UART_ReceiveToIdle_IT(huart3_lin, LinRxData, LIN_RX_BUFFER_SIZE);
       HAL_UART_Transmit_IT(huart3_lin, LinTxData, LIN_TX_BUFFER_SIZE);
+
     } else {
       {
         send_toggle = 0;
         // ask servo drive for position
         LinTxData[0] = 0x55;
-        LinTxData[1] = Pid_Calc(DRIVE_ID + 1);
+        LinTxData[1] = Pid_Calc(drive_id + 1);
 
         HAL_GPIO_TogglePin(LOGIC_ANALYZER_PORT, LOGIC_ANALYZER_PIN);
 
@@ -189,6 +194,7 @@ void HAL_UART_LINBreakCallback(hal_uart_handle_t *huart) {
         memset(LinRxData, 0x00, LIN_RX_BUFFER_SIZE);
         HAL_UART_ReceiveToIdle_IT(huart3_lin, LinRxData, LIN_RX_BUFFER_SIZE);
         HAL_UART_Transmit_IT(huart3_lin, LinTxData, 2);
+        // drive_id ++;
       }
     }
   }

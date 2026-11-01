@@ -548,7 +548,7 @@
     },
     "HAL_CORTEX_PROJECT_USE_HAL": {
       "name": "HAL_CORTEX_PROJECT_USE_HAL",
-      "value": 5,
+      "value": 7,
       "originator": "sw-config-semaphore"
     },
     "HAL_ICACHE_CORE_ENABLED": {
@@ -613,6 +613,11 @@
     },
     "HAL_I2C_PROJECT_USE_HAL": {
       "name": "HAL_I2C_PROJECT_USE_HAL",
+      "value": 1,
+      "originator": "sw-config-semaphore"
+    },
+    "HAL_EXTI_SYSTEM_GPIO_STANDARD_EXTI": {
+      "name": "HAL_EXTI_SYSTEM_GPIO_STANDARD_EXTI",
       "value": 1,
       "originator": "sw-config-semaphore"
     }

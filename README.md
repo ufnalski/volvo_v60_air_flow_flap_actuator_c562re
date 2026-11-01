@@ -8,13 +8,15 @@ The part number is [6G9N19E616](https://allegro.pl/listing?string=6G9N19E616). T
 Don't worry. Just open the .ioc2 file in STM32CubeMX2 and hit the yellow button to generate the IDE project. Then open the project in STM32CubeIDE for Visual Studio Code and build it.
 
 # What's inside?
-Coming soon.
+
+![Volvo V60 air flow flap servo drive inside](/Assets/Images/volvo_flap_actuator_inside.jpg)
 
 # Similar solutions
 * [MLX81150 LIN-Slave for relay and DC motor control](https://www.melexis.com/en/product/mlx81150/lin-slave-relay-dc-motor-control-gen2) (Melexis)
 * [MLX81350 Smart LIN driver IC for DC, Stepper and BLDC motor (0.5 A)](https://www.melexis.com/en/product/mlx81350/smart-lin-motor-driver-500-ma-gen4) (Melexis)
 * [Stepper Motor Controller IC](https://www.elmos.com/english/products/motor-control-ics/stepper-motor-controller-ic.html) (Elmos)
 * [E523.30C Power LIN2.X Stepper with Stall Detection](https://www.elmos.com/fileadmin/elmos-website/products/motor-control/stepper_motor/elmos-power-stepper-controller-with-stall-detection-and-auto-addressing-e52330-is.pdf) (Elmos)
+* [Power LIN2.x Stepper with Stall Detection](https://www.mouser.com/datasheet/2/594/e523-30b-38b_elmos_ds-270834.pdf) (Elmos)
 * [NCV70628 LIN Micro-Stepping Motor Driver 800mA](https://www.onsemi.com/products/motor-control/motor-drivers/motor-drivers-stepper/ncv70628) (Onsemi)
 * [AMIS-30621 Micro-Stepping Motor Driver](https://www.mouser.com/datasheet/2/308/1/AMIS_30621_D-1801820.pdf) (Onsemi)
 
